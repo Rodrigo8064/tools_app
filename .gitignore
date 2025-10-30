@@ -1,0 +1,10 @@
+__pycache__/
+/venv/
+credentials.json
+specfile.spec
+build.py
+FerramentasMultimidia.spec
+EMAIL/config.py
+EMAIL/especialistas.py
+/build/
+/dist/
