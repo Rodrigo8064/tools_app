@@ -82,51 +82,6 @@ def dividir_csv(parent_window):
     except Exception as e:
         QMessageBox.critical(parent_window, "Erro", f"Erro ao dividir CSV: {str(e)}")
 
-def corrigir_csv(parent_window):
-    """Função para corrigir problemas comuns em arquivos CSV"""
-    try:
-        # Abrir diálogo para selecionar arquivo
-        file_path, _ = QFileDialog.getOpenFileName(
-            parent_window,
-            "Selecione o arquivo CSV para corrigir",
-            "",
-            "CSV Files (*.csv);;All Files (*)"
-        )
-        
-        if file_path:
-            # Ler o arquivo CSV
-            df = pd.read_csv(file_path)
-            
-            # Remover linhas duplicadas
-            linhas_antes = len(df)
-            df_limpo = df.drop_duplicates()
-            linhas_apos_dup = len(df_limpo)
-            
-            # Remover linhas com todos os valores NaN
-            df_limpo = df_limpo.dropna(how='all')
-            linhas_apos_nan = len(df_limpo)
-            
-            # Salvar arquivo corrigido
-            nome_base = os.path.splitext(os.path.basename(file_path))[0]
-            novo_path = f"CSV/{nome_base}_corrigido.csv"
-            df_limpo.to_csv(novo_path, index=False)
-            
-            # Estatísticas
-            duplicados_removidos = linhas_antes - linhas_apos_dup
-            nan_removidos = linhas_apos_dup - linhas_apos_nan
-            
-            mensagem = f"Arquivo corrigido salvo como: {novo_path}\n\n"
-            mensagem += f"Estatísticas:\n"
-            mensagem += f"- Linhas originais: {linhas_antes}\n"
-            mensagem += f"- Duplicados removidos: {duplicados_removidos}\n"
-            mensagem += f"- Linhas vazias removidas: {nan_removidos}\n"
-            mensagem += f"- Linhas finais: {linhas_apos_nan}"
-            
-            QMessageBox.information(parent_window, "Sucesso", mensagem)
-        
-    except Exception as e:
-        QMessageBox.critical(parent_window, "Erro", f"Erro ao corrigir CSV: {str(e)}")
-
 def formatar_csv(parent_window):
     """Função para formatar CSV e enviar para Google Sheets"""
     try:

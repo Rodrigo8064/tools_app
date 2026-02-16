@@ -4,6 +4,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from CSV.page import CsvToolsWindow
 from EMAIL.page import EmailToolsWindow
+from scraping import abrir_scraping_magalu
 from utils import iniciar_lembretes_agua, lembrete_agua
 
 class MainApp(QMainWindow):
@@ -44,6 +45,13 @@ class MainApp(QMainWindow):
         email_button.setFixedHeight(40)
         email_button.clicked.connect(self.open_email_tool)
         layout.addWidget(email_button)
+
+        # Botão de scraping
+        scraping_button = QPushButton("🕷️ Scraping Magazine Luiza")
+        scraping_button.setFixedHeight(40)
+        scraping_button.clicked.connect(self.open_scraping_tool)  # Conecta a função
+        layout.addWidget(scraping_button)
+
 
         # Botão Lembrete de Água
         agua_button = QPushButton("💧 Lembrete de Água")
@@ -86,6 +94,12 @@ class MainApp(QMainWindow):
         self.email_window = EmailToolsWindow(self)
         self.email_window.show()
         self.hide()
+
+    def open_scraping_tool(self):
+        try:
+            abrir_scraping_magalu()
+        except Exception as e:
+            print(F'Erro ao realizar scraping: {e}')
 
 def main():
     app = QApplication(sys.argv)
